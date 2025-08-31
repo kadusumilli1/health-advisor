@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Health Advisor{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ user_name }}!</h2>
+
+<div style="margin-bottom: 30px;">
+    <h3>Upload Health Results</h3>
+    <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Select health test results file:</label>
+            <input type="file" id="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.txt,.doc,.docx" required>
+        </div>
+        <button type="submit">Upload File</button>
+    </form>
+</div>
+
+<div class="file-list">
+    <h3>Your Health Files</h3>
+    {% if files %}
+        {% for file in files %}
+        <div class="file-item">
+            <strong>{{ file.original_filename }}</strong><br>
+            <small>Uploaded: {{ file.uploaded_at[:19] }}</small>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No files uploaded yet. Upload your first health test results above!</p>
+    {% endif %}
+</div>
+{% endblock %}

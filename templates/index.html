@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Health Advisor - Home{% endblock %}
+
+{% block content %}
+<h1>Welcome to Health Advisor</h1>
+<p>Track and manage your health test results securely.</p>
+
+<div style="margin-top: 30px;">
+    <a href="{{ url_for('login') }}">
+        <button>Login</button>
+    </a>
+    <a href="{{ url_for('signup') }}" style="margin-left: 10px;">
+        <button>Sign Up</button>
+    </a>
+</div>
+{% endblock %}
