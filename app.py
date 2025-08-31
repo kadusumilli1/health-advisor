@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, request, render_template, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
 
-from utils.auth import create_user, validate_user_credentials
+from utils.auth import create_user, validate_user_credentials, get_user_by_email, update_user_profile
 from utils.file_manager import load_json_file, save_health_data
 
 app = Flask(__name__)
@@ -70,9 +70,57 @@ def dashboard():
     health_data = load_json_file(HEALTH_DATA_FILE)
     user_files = health_data.get(email, [])
     
+    # Check if user should see profile completion prompt
+    # Only show if they have uploaded files but profile is incomplete
+    show_profile_prompt = False
+    if user_files:  # User has uploaded at least one file
+        user = get_user_by_email(email, USERS_FILE)
+        profile_complete = all([user.get('age'), user.get('sex'), user.get('race')])
+        show_profile_prompt = not profile_complete
+    
     return render_template('dashboard.html', 
                          user_name=session['user_name'], 
-                         files=user_files)
+                         files=user_files,
+                         show_profile_prompt=show_profile_prompt)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'user_email' not in session:
+        return redirect(url_for('login'))
+    
+    email = session['user_email']
+    
+    if request.method == 'POST':
+        age = request.form.get('age')
+        sex = request.form.get('sex')
+        race = request.form.get('race')
+        
+        # Convert age to int if provided
+        if age:
+            try:
+                age = int(age)
+                if age < 1 or age > 150:
+                    flash('Please enter a valid age between 1 and 150', 'error')
+                    return redirect(url_for('profile'))
+            except ValueError:
+                flash('Please enter a valid age', 'error')
+                return redirect(url_for('profile'))
+        else:
+            age = None
+            
+        # Set empty strings to None
+        sex = sex if sex else None
+        race = race if race else None
+        
+        if update_user_profile(email, age, sex, race, USERS_FILE):
+            flash('Profile updated successfully!', 'success')
+        else:
+            flash('Error updating profile', 'error')
+        
+        return redirect(url_for('profile'))
+    
+    user = get_user_by_email(email, USERS_FILE)
+    return render_template('profile.html', user=user)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

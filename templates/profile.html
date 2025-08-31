@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Health Advisor{% endblock %}
+
+{% block content %}
+<h2>Your Profile</h2>
+
+<div class="form-group">
+    <strong>Name:</strong> {{ user.name }}<br>
+    <strong>Email:</strong> {{ user.email }}
+</div>
+
+<h3>Health Profile Information</h3>
+<p><em>Complete your profile to get personalized health recommendations based on your demographics.</em></p>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" min="1" max="150" value="{{ user.age or '' }}">
+    </div>
+    
+    <div class="form-group">
+        <label for="sex">Sex:</label>
+        <select id="sex" name="sex">
+            <option value="">Select...</option>
+            <option value="male" {% if user.sex == 'male' %}selected{% endif %}>Male</option>
+            <option value="female" {% if user.sex == 'female' %}selected{% endif %}>Female</option>
+            <option value="other" {% if user.sex == 'other' %}selected{% endif %}>Other</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="race">Race/Ethnicity:</label>
+        <select id="race" name="race">
+            <option value="">Select...</option>
+            <option value="white" {% if user.race == 'white' %}selected{% endif %}>White</option>
+            <option value="black" {% if user.race == 'black' %}selected{% endif %}>Black or African American</option>
+            <option value="hispanic" {% if user.race == 'hispanic' %}selected{% endif %}>Hispanic or Latino</option>
+            <option value="asian" {% if user.race == 'asian' %}selected{% endif %}>Asian</option>
+            <option value="native_american" {% if user.race == 'native_american' %}selected{% endif %}>American Indian or Alaska Native</option>
+            <option value="pacific_islander" {% if user.race == 'pacific_islander' %}selected{% endif %}>Native Hawaiian or Pacific Islander</option>
+            <option value="mixed" {% if user.race == 'mixed' %}selected{% endif %}>Mixed Race</option>
+            <option value="other" {% if user.race == 'other' %}selected{% endif %}>Other</option>
+            <option value="prefer_not_to_say" {% if user.race == 'prefer_not_to_say' %}selected{% endif %}>Prefer not to say</option>
+        </select>
+    </div>
+    
+    <button type="submit">Update Profile</button>
+</form>
+{% endblock %}

@@ -5,7 +5,14 @@
 {% block content %}
 <h2>Welcome, {{ user_name }}!</h2>
 
-<div style="margin-bottom: 30px;">
+{% if show_profile_prompt %}
+<div class="alert alert-info">
+    <strong>Get Personalized Health Insights!</strong><br>
+    Complete your <a href="{{ url_for('profile') }}">profile</a> with age, sex, and race/ethnicity information to receive more accurate health recommendations based on your demographics.
+</div>
+{% endif %}
+
+<div class="upload-section">
     <h3>Upload Health Results</h3>
     <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
         <div class="form-group">

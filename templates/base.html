@@ -11,6 +11,7 @@
         {% if session.user_email %}
         <div class="nav">
             <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
             <a href="{{ url_for('logout') }}">Logout</a>
         </div>
         {% endif %}

@@ -26,7 +26,9 @@ label {
 input[type="text"], 
 input[type="email"], 
 input[type="password"], 
-input[type="file"] {
+input[type="file"],
+input[type="number"],
+select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -95,4 +97,23 @@ a {
 
 a:hover {
     text-decoration: none;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+    margin-bottom: 20px;
+}
+
+.button-container {
+    margin-top: 30px;
+}
+
+.button-container a {
+    margin-left: 10px;
+}
+
+.upload-section {
+    margin-bottom: 30px;
 }

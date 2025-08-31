@@ -7,7 +7,7 @@ def get_user_by_email(email, users_file_path):
     users = load_json_file(users_file_path)
     return users.get(email)
 
-def create_user(name, email, password, age, sex, race, users_file_path):
+def create_user(name, email, password, users_file_path, age=None, sex=None, race=None):
     """Create a new user account."""
     users = load_json_file(users_file_path)
     if email in users:
