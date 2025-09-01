@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash, ses
 from werkzeug.utils import secure_filename
 
 from utils.auth import create_user, validate_user_credentials, get_user_by_email, update_user_profile
-from utils.file_manager import load_json_file, save_health_data
+from utils.file_manager import load_json_file, save_health_data, delete_health_data
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-this'
@@ -145,6 +145,20 @@ def upload_file():
         
         save_health_data(session['user_email'], filename, file.filename, HEALTH_DATA_FILE)
         flash('File uploaded successfully!', 'success')
+    
+    return redirect(url_for('dashboard'))
+
+@app.route('/delete_file/<filename>', methods=['POST'])
+def delete_file(filename):
+    if 'user_email' not in session:
+        return redirect(url_for('login'))
+    
+    email = session['user_email']
+    
+    if delete_health_data(email, filename, HEALTH_DATA_FILE, app.config['UPLOAD_FOLDER']):
+        flash('File deleted successfully!', 'success')
+    else:
+        flash('Error deleting file. File may not exist.', 'error')
     
     return redirect(url_for('dashboard'))
 

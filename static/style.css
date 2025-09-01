@@ -89,6 +89,35 @@ button:hover {
 .file-item {
     padding: 10px;
     border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-actions {
+    margin-left: 15px;
+}
+
+.delete-form {
+    display: inline;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
 }
 
 a {
